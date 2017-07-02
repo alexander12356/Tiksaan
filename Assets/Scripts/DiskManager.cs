@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class DiskManager : MonoBehaviour
@@ -29,5 +28,26 @@ public class DiskManager : MonoBehaviour
         {
             playerTeam[i].GetComponent<SpriteRenderer>().color = Color.blue;
         }
+    }
+
+    public bool CanNextTurn()
+    {
+        for (int i = 0; i < m_Team1.Count; i++)
+        {
+            if (m_Team1[i].IsIdle() == false)
+            {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < m_Team2.Count; i++)
+        {
+            if (m_Team2[i].IsIdle() == false)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class Disk : NetworkBehaviour
@@ -36,5 +37,10 @@ public class Disk : NetworkBehaviour
         m_PrevPosition = transform.position;
 
         return l_Direction.normalized * l_Distance * m_SpeedCoeff;
+    }
+
+    public bool IsIdle()
+    {
+        return m_RigidBody.velocity == Vector2.zero;
     }
 }

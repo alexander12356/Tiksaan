@@ -1,11 +1,21 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class TurnManager : NetworkBehaviour
 {
-    public byte currentTurn = 0;
+    public byte m_CurrentTurn = 0;
+    public float m_TurnTime;
+
+    private TeamManager m_TeamManager = null;
+    private DiskManager m_DiskManager = null;
+
+    public override void OnStartServer()
+    {
+        m_TeamManager = FindObjectOfType<TeamManager>();
+        m_DiskManager = FindObjectOfType<DiskManager>();
+    }
 
     [Server]
     public void StartGame()
@@ -16,13 +26,34 @@ public class TurnManager : NetworkBehaviour
     [Server]
     public void NextTurn()
     {
-        FindObjectOfType<TeamManager>().playerSessions[currentTurn].RpcStartTurn();
+        StopAllCoroutines();
+        StartCoroutine(CheckingDisksIdle());
+    }
 
-        currentTurn++;
-
-        if (currentTurn > 1)
+    private IEnumerator CheckingDisksIdle()
+    {
+        bool isIdle = false;
+        while (!isIdle)
         {
-            currentTurn = 0;
+            isIdle = m_DiskManager.CanNextTurn();
+            yield return new WaitForEndOfFrame();
         }
+
+        m_TeamManager.playerSessions[m_CurrentTurn].RpcStartTurn();
+
+        m_CurrentTurn++;
+
+        if (m_CurrentTurn > 1)
+        {
+            m_CurrentTurn = 0;
+        }
+
+        StartCoroutine(RunningTurnTime());
+    }
+
+    private IEnumerator RunningTurnTime()
+    {
+        yield return new WaitForSeconds(m_TurnTime);
+        NextTurn();
     }
 }
