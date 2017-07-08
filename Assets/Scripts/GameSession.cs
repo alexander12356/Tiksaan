@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public class GameSession : NetworkBehaviour
@@ -65,5 +63,15 @@ public class GameSession : NetworkBehaviour
         {
             Debug.Log("Team 1 WIN");
         }
+    }
+
+    public void ShowRestartGame()
+    {
+
+    }
+
+    public void StartGame()
+    {
+
     }
 }
