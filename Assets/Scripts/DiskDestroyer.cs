@@ -6,6 +6,9 @@ public class DiskDestroyer : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
+        if (collision.gameObject.tag == "Disk")
+        {
+            collision.GetComponent<Disk>().Remove();
+        }
     }
 }

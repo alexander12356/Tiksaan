@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 
 public class TeamManager : NetworkBehaviour
 {
+    [Header("Debugging")]
     [SerializeField]
     private List<PlayerSession> m_PlayerSessions = new List<PlayerSession>();
 
@@ -13,15 +14,15 @@ public class TeamManager : NetworkBehaviour
     }
 
     [Server]
-    public void AddPlayerSession(GameObject playerSessionGameObject)
+    public void ExecuteAddPlayerSession(GameObject playerSessionGameObject)
     {
-        var playerSessionInstance = playerSessionGameObject.GetComponent<PlayerSession>();
-        m_PlayerSessions.Add(playerSessionInstance);
-        playerSessionInstance.RpcSetTeamId((byte)m_PlayerSessions.Count);
+        var l_PlayerSessionInstance = playerSessionGameObject.GetComponent<PlayerSession>();
+        GameSession.Instance.diskManager.SetLocalPlayerTeam((byte)m_PlayerSessions.Count);
+        m_PlayerSessions.Add(l_PlayerSessionInstance);
 
         if (m_PlayerSessions.Count == 2)
         {
-            FindObjectOfType<TurnManager>().StartGame();
+            GameSession.Instance.turnManager.StartGame();
         }
     }
 }

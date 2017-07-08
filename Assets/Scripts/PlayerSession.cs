@@ -27,7 +27,7 @@ public class PlayerSession : NetworkBehaviour
     [Command]
     private void CmdSetPlayerSession()
     {
-        FindObjectOfType<TeamManager>().AddPlayerSession(gameObject);
+        FindObjectOfType<TeamManager>().ExecuteAddPlayerSession(gameObject);
     }
 
     private void Update()
@@ -86,7 +86,7 @@ public class PlayerSession : NetworkBehaviour
 
         if (hasAuthority)
         {
-            FindObjectOfType<DiskManager>().SetLocalPlayerTeam(m_TeamId);
+            
         }
     }
 
