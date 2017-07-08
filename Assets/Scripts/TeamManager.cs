@@ -18,6 +18,7 @@ public class TeamManager : NetworkBehaviour
     {
         var l_PlayerSessionInstance = playerSessionGameObject.GetComponent<PlayerSession>();
         GameSession.Instance.diskManager.SetLocalPlayerTeam((byte)m_PlayerSessions.Count);
+        l_PlayerSessionInstance.RpcSetTeamId((byte)m_PlayerSessions.Count);
         m_PlayerSessions.Add(l_PlayerSessionInstance);
 
         if (m_PlayerSessions.Count == 2)

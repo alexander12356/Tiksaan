@@ -53,7 +53,13 @@ public class TurnManager : NetworkBehaviour
 
     private IEnumerator RunningTurnTime()
     {
-        yield return new WaitForSeconds(m_TurnTime);
+        int l_CurrentTime = 0;
+        while (l_CurrentTime < m_TurnTime)
+        {
+            yield return new WaitForSeconds(1.0f);
+            l_CurrentTime++;
+            Debug.Log("Round Time: " + (m_TurnTime - l_CurrentTime));
+        }
         NextTurn();
     }
 }

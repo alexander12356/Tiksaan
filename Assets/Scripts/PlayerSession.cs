@@ -27,7 +27,7 @@ public class PlayerSession : NetworkBehaviour
     [Command]
     private void CmdSetPlayerSession()
     {
-        FindObjectOfType<TeamManager>().ExecuteAddPlayerSession(gameObject);
+        GameSession.Instance.teamManager.ExecuteAddPlayerSession(gameObject);
     }
 
     private void Update()
@@ -94,11 +94,16 @@ public class PlayerSession : NetworkBehaviour
     public void RpcStartTurn()
     {
         m_IsCanTurn = true;
+
+        if (hasAuthority)
+        {
+            Debug.Log("MyTurn");
+        }
     }
 
     [Command]
     private void CmdEndTurn()
     {
-        FindObjectOfType<TurnManager>().NextTurn();
+        GameSession.Instance.turnManager.NextTurn();
     }
 }
