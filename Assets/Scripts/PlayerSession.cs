@@ -4,6 +4,8 @@ using UnityEngine.Networking;
 
 public class PlayerSession : NetworkBehaviour
 {
+    public static PlayerSession localPlayer;
+
     [SerializeField]
     private LayerMask m_LayerMask;
 
@@ -22,6 +24,8 @@ public class PlayerSession : NetworkBehaviour
         enabled = true;
 
         CmdSetPlayerSession();
+
+        localPlayer = this;
     }
 
     [Command]
@@ -83,11 +87,6 @@ public class PlayerSession : NetworkBehaviour
     public void RpcSetTeamId(byte teamId)
     {
         m_TeamId = teamId;
-
-        if (hasAuthority)
-        {
-            
-        }
     }
 
     [ClientRpc]

@@ -8,7 +8,7 @@ public class DiskDestroyer : MonoBehaviour
     {
         if (collision.gameObject.tag == "Disk")
         {
-            collision.GetComponent<Disk>().Remove();
+            GameSession.Instance.diskManager.RemoveDisk(collision.GetComponent<Disk>());
         }
     }
 }

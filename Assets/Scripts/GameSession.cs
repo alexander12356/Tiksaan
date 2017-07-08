@@ -55,11 +55,11 @@ public class GameSession : NetworkBehaviour
 
     public void CheckWin()
     {
-        if (m_DiskManager.team1.Count == 0)
+        if (m_DiskManager.team1Disks.Count == 0)
         {
             Debug.Log("Team 2 WIN");
         }
-        else if (m_DiskManager.team2.Count == 0)
+        else if (m_DiskManager.team2Disks.Count == 0)
         {
             Debug.Log("Team 1 WIN");
         }

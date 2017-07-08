@@ -6,17 +6,18 @@ public class Disk : NetworkBehaviour
 {
     [SerializeField]
     private float m_SpeedCoeff = 2.0f;
+    [SyncVar]
     [SerializeField]
     private int m_TeamId;
     private Vector3 m_PrevPosition;
     private Rigidbody2D m_RigidBody;
-
-
+    
     public Action<Disk> OnRemove;
     
     public int teamId
     {
         get { return m_TeamId; }
+        set { m_TeamId = value; }
     }
 
     private void Awake()
@@ -38,18 +39,6 @@ public class Disk : NetworkBehaviour
         m_PrevPosition = transform.position;
 
         return l_Direction.normalized * l_Distance * m_SpeedCoeff;
-    }
-
-    [Command]
-    public void CmdSetColor(Color p_NewColor)
-    {
-        RpcSetColor(p_NewColor);
-    }
-
-    [ClientRpc]
-    private void RpcSetColor(Color p_NewColor)
-    {
-        GetComponent<SpriteRenderer>().color = p_NewColor;
     }
 
     public bool IsIdle()

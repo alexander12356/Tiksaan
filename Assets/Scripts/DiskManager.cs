@@ -7,49 +7,63 @@ using UnityEngine.Networking;
 public class DiskManager : NetworkBehaviour
 {
     [SerializeField]
-    private List<Disk> m_Team1 = null;
+    private List<Transform> m_Team1SpawnPositions = new List<Transform>();
+    [SerializeField]
+    private List<Transform> m_Team2SpawnPositions = new List<Transform>();
 
     [SerializeField]
-    private List<Disk> m_Team2 = null;
+    private Disk m_DiskPrefab = null;
 
-    public List<Disk> team1
+    [Header("Debugging")]
+    [SerializeField]
+    private List<Disk> m_Team1Disks = new List<Disk>();
+    [SerializeField]
+    private List<Disk> m_Team2Disks = new List<Disk>();
+
+    public List<Disk> team1Disks
     {
         get
         {
-            return m_Team1;
+            return m_Team1Disks;
         }
     }
 
-    public List<Disk> team2
+    public List<Disk> team2Disks
     {
         get
         {
-            return m_Team2;
+            return m_Team2Disks;
         }
     }
 
     public override void OnStartServer()
     {
-        for (int i = 0; i < m_Team1.Count; i++)
+        for (int i = 0; i < m_Team1SpawnPositions.Count; i++)
         {
-            m_Team1[i].OnRemove += RemoveDisk;
+            var l_DiskObject = Instantiate(m_DiskPrefab, m_Team1SpawnPositions[i], false);
+            l_DiskObject.teamId = 0;
+            m_Team1Disks.Add(l_DiskObject);
+            NetworkServer.Spawn(l_DiskObject.gameObject);
         }
 
-        for (int i = 0; i < m_Team2.Count; i++)
+        for (int i = 0; i < m_Team2SpawnPositions.Count; i++)
         {
-            m_Team2[i].OnRemove += RemoveDisk;
+            var l_DiskObject = Instantiate(m_DiskPrefab, m_Team2SpawnPositions[i], false);
+            l_DiskObject.teamId = 1;
+            m_Team2Disks.Add(l_DiskObject);
+            NetworkServer.Spawn(l_DiskObject.gameObject);
         }
     }
 
-    private void RemoveDisk(Disk p_Disk)
+    public void RemoveDisk(Disk p_Disk)
     {
         switch(p_Disk.teamId)
         {
             case 0:
-                m_Team1.Remove(p_Disk);
+                m_Team1Disks.Remove(p_Disk);
                 break;
             case 1:
-                m_Team2.Remove(p_Disk);
+                m_Team2Disks.Remove(p_Disk);
                 break;
             default:
                 Debug.LogError("Disk without team id");
@@ -61,42 +75,19 @@ public class DiskManager : NetworkBehaviour
         GameSession.Instance.CheckWin();
     }
 
-    [Server]
-    public void SetLocalPlayerTeam(byte teamId)
-    {
-        //switch (teamId)
-        //{
-        //    case 1:
-        //        SetColor(m_Team1);
-        //        break;
-        //    case 2:
-        //        SetColor(m_Team2);
-        //        break;
-        //}
-    }
-
-    [Server]
-    private void SetColor(List<Disk> playerDiskList)
-    {
-        for (int i = 0; i < playerDiskList.Count; i++)
-        {
-            playerDiskList[i].CmdSetColor(Color.blue);
-        }
-    }
-
     public bool CanNextTurn()
     {
-        for (int i = 0; i < m_Team1.Count; i++)
+        for (int i = 0; i < m_Team1Disks.Count; i++)
         {
-            if (m_Team1[i].IsIdle() == false)
+            if (m_Team1Disks[i].IsIdle() == false)
             {
                 return false;
             }
         }
 
-        for (int i = 0; i < m_Team2.Count; i++)
+        for (int i = 0; i < m_Team2Disks.Count; i++)
         {
-            if (m_Team2[i].IsIdle() == false)
+            if (m_Team2Disks[i].IsIdle() == false)
             {
                 return false;
             }
