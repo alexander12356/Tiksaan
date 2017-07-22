@@ -25,7 +25,6 @@ GameObject:
   - component: {fileID: 50222737072115464}
   - component: {fileID: 212258513477387116}
   - component: {fileID: 114739514843113756}
-  - component: {fileID: 58202741022001034}
   m_Layer: 8
   m_Name: Disk
   m_TagString: Disk
@@ -58,29 +57,14 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0.4
-  m_AngularDrag: 0.05
+  m_LinearDrag: 1
+  m_AngularDrag: 0.01
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &58202741022001034
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1859864377343948}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.02, y: 0.03}
-  serializedVersion: 2
-  m_Radius: 0.436
 --- !u!58 &58555542695048068
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -89,7 +73,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 1859864377343948}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 4e5f01f060f174b47899def827c58452, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -160,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a3ee82d4c701e44b301186ffda32fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SpeedCoeff: 4
+  m_SpeedCoeff: 10
   m_TeamId: 1
 --- !u!212 &212258513477387116
 SpriteRenderer:
