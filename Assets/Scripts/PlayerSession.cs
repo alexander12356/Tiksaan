@@ -96,6 +96,7 @@ public class PlayerSession : NetworkBehaviour
 
         if (hasAuthority)
         {
+            GameUI.instance.ShowYourTurnPanel();
             Debug.Log("MyTurn");
         }
     }
