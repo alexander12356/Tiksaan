@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class GameSession : NetworkBehaviour
@@ -72,6 +74,6 @@ public class GameSession : NetworkBehaviour
 
     public void StartGame()
     {
-
+        GameUI.instance.ShowGameStartingPanel();
     }
 }

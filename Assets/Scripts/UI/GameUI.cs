@@ -5,6 +5,7 @@ public class GameUI : MonoBehaviour
     private static GameUI m_Instance;
     
     public GameObject YourTurnPanel;
+    public GameObject StartingGamePanel;
     public static GameUI instance
     {
         get { return m_Instance; }
@@ -18,5 +19,10 @@ public class GameUI : MonoBehaviour
     public void ShowYourTurnPanel()
     {
         YourTurnPanel.SetActive(true);
+    }
+
+    public void ShowGameStartingPanel()
+    {
+        StartingGamePanel.SetActive(true);
     }
 }
