@@ -22,7 +22,7 @@ public class TeamManager : NetworkBehaviour
 
         if (m_PlayerSessions.Count == 2)
         {
-            GameSession.Instance.StartGame();
+            GameSession.Instance.ExecuteShowStartGame();
         }
     }
 }

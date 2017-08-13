@@ -1,15 +1,13 @@
-﻿using System;
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
+using UnityEngine.Networking;
 
-public class TimerPanel : MonoBehaviour
+public class StartGamePanel : NetworkBehaviour
 {
     private Text _text;
-
-    public UnityEvent OnTimerEnd;
+    
     public float time;
+    public GameSession gameSession;
 
     private void Awake()
     {
@@ -19,6 +17,13 @@ public class TimerPanel : MonoBehaviour
     private void OnEnable ()
     {
 		_text.text = "GAME STARTING:\n" + time;
+    }
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+
+        Debug.Log("Start on server");
     }
 
     public void Init(int time)
@@ -35,10 +40,6 @@ public class TimerPanel : MonoBehaviour
         }
         else
         {
-            if (OnTimerEnd != null)
-            {
-                OnTimerEnd.Invoke();
-            }
             gameObject.SetActive(false);
         }
 	}

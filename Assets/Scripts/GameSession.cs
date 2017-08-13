@@ -11,6 +11,8 @@ public class GameSession : NetworkBehaviour
     private DiskManager m_DiskManager;
     private TeamManager m_TeamManager;
 
+    public GameUISynchronize gameUISynchronize;
+
     public static GameSession Instance
     {
         get
@@ -72,8 +74,17 @@ public class GameSession : NetworkBehaviour
 
     }
 
-    public void StartGame()
+    [Server]
+    public void ExecuteShowStartGame()
     {
-        GameUI.instance.ShowGameStartingPanel();
+        gameUISynchronize.RpcShowGameStartingPanel();
+        StartCoroutine(KostilRunGame());
+    }
+
+    private IEnumerator KostilRunGame()
+    {
+        yield return new WaitForSeconds(6.0f);
+
+        turnManager.StartGame();
     }
 }
