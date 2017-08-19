@@ -6,10 +6,10 @@ using UnityEngine.Networking;
 public class GameSession : NetworkBehaviour
 {
     private static GameSession m_Instance;
-
     private TurnManager m_TurnManager;
     private DiskManager m_DiskManager;
     private TeamManager m_TeamManager;
+    private bool m_IsGameEnd = false;
 
     public GameUISynchronize gameUISynchronize;
 
@@ -45,6 +45,11 @@ public class GameSession : NetworkBehaviour
         }
     }
 
+    public bool isGameEnd
+    {
+        get { return m_IsGameEnd; }
+    }
+
     public void Awake()
     {
         m_Instance = this;
@@ -61,11 +66,15 @@ public class GameSession : NetworkBehaviour
     {
         if (m_DiskManager.team1Disks.Count == 0)
         {
-            Debug.Log("Team 2 WIN");
+            m_IsGameEnd = true;
+            teamManager.playerSessions[1].ExecuteWin();
+            Debug.Log("GAME_LOG: Team 2 WIN");
         }
         else if (m_DiskManager.team2Disks.Count == 0)
         {
-            Debug.Log("Team 1 WIN");
+            m_IsGameEnd = true;
+            teamManager.playerSessions[0].ExecuteWin();
+            Debug.Log("GAME_LOG: Team 1 WIN");
         }
     }
 

@@ -1,21 +1,19 @@
 ﻿using System;
+
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class PlayerSession : NetworkBehaviour
 {
-    public static PlayerSession localPlayer;
-
     [SerializeField]
     private LayerMask m_LayerMask;
-
     private Disk m_SelectedDisk;
-
-    [SerializeField]
-    [SyncVar]
+    [SerializeField, SyncVar]
     private byte m_TeamId;
-
     private bool m_IsCanTurn = false;
+
+    public static PlayerSession localPlayer;
+    public Action OnWin;
 
     public override void OnStartAuthority()
     {
@@ -26,6 +24,8 @@ public class PlayerSession : NetworkBehaviour
         CmdSetPlayerSession();
 
         localPlayer = this;
+
+        OnWin += GameUI.instance.ShowWinPanel;
     }
 
     [Command]
@@ -105,5 +105,20 @@ public class PlayerSession : NetworkBehaviour
     private void CmdEndTurn()
     {
         GameSession.Instance.turnManager.NextTurn();
+    }
+
+    [Server]
+    public void ExecuteWin()
+    {
+        RpcWin();
+    }
+
+    [ClientRpc]
+    private void RpcWin()
+    {
+        if (OnWin != null)
+        {
+            OnWin.Invoke();
+        }
     }
 }

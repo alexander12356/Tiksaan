@@ -5,11 +5,11 @@ using UnityEngine.Networking;
 
 public class TurnManager : NetworkBehaviour
 {
-    public byte m_CurrentTurn = 0;
-    public float m_TurnTime;
-
     private TeamManager m_TeamManager = null;
     private DiskManager m_DiskManager = null;
+
+    public byte m_CurrentTurn = 0;
+    public float m_TurnTime;
 
     public override void OnStartServer()
     {
@@ -37,6 +37,12 @@ public class TurnManager : NetworkBehaviour
         {
             isIdle = m_DiskManager.CanNextTurn();
             yield return new WaitForEndOfFrame();
+        }
+
+        if (GameSession.Instance.isGameEnd)
+        {
+            StopAllCoroutines();
+            yield return null;
         }
 
         m_TeamManager.playerSessions[m_CurrentTurn].RpcStartTurn();
